@@ -7,8 +7,13 @@ def test_version():
     assert __version__ == '0.1.0'
 
 
+def make_batch_and_line(desc, qty, orderqty):
+    batch = Batch("batch-001", desc, qty=qty, eta=date.today())
+    line = OrderLine('order-ref', desc, orderqty)
+    return batch, line
+
+
 def test_allocating_to_a_batch_reduces_the_available_quantity():
-    batch = Batch("batch-001", "SMALL-TABLE", qty=20, eta=date.today())
-    line = OrderLine('order-ref', "SMALL-TABLE", 2)
+    batch, line = make_batch_and_line("ANGULAR-DESK", 20, 2)
     batch.allocate(line)
     assert batch.available_quantity == 18
